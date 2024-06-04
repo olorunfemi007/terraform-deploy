@@ -4,3 +4,7 @@ terraform.tfstate.backup
 /**/.*  # ignore all dotted files
 /**/.*/ # ignore all dotted folders
 !/.gitignore  # except `gitignore` :)
+
+
+# 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
+# ssh-keygen -t ed25519
