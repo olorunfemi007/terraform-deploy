@@ -62,5 +62,5 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: femi28/maven-app:1
+        tags: femi28/maven-app:${{ github.sha }}
      
