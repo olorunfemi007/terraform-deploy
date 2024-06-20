@@ -41,18 +41,35 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Terraform Init
+      uses: hashicorp/terraform-github-actions/init@v0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        TF_ACTION_WORKING_DIR: 'terraform'
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Terraform Validate
+      uses: hashicorp/terraform-github-actions/validate@v0.3.7
+
+    - name: Terraform Apply
+      uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        TF_ACTION_WORKING_DIR: 'terraform'
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Set up JDK 14
       uses: actions/setup-java@v1
       with:
         java-version: '14'
         distribution: 'temurin'
         cache: maven
+    
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Install with Maven
       run: mvn -B install --file pom.xml
-    - name: Check location of build
-      run: ls /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war
     - name: Move WAR file to build context
       run: cp /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war .
     - name: Set up QEMU
