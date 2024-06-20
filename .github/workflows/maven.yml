@@ -74,7 +74,7 @@ jobs:
 
     - name: Terraform Destroy
       if: ${{github.events.input.job_type == 'destroy'}}
-      uses: hashicorp/terraform-github-actions/destroy
+      uses: hashicorp/terraform-github-actions/destroy@v0.3.7
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         # TF_ACTION_WORKING_DIR: 'terraform'
