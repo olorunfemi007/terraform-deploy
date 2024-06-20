@@ -68,8 +68,8 @@ resource "aws_route" "public_internet_access" {
 
 resource "aws_instance" "public_instance" {
   ami = var.ami
-  key_name = "vpc"
-  instance_type = var.instance_type[2]
+  key_name = var.key_pair
+  instance_type = var.instance_type[0]
   subnet_id = aws_subnet.public.id
   user_data = file("${path.module}/jenkins.sh")
   vpc_security_group_ids  = [aws_security_group.public_sg.id]
@@ -81,8 +81,8 @@ resource "aws_instance" "public_instance" {
 resource "aws_instance" "private_instance" {
   ami = var.ami
   count = 4
-  key_name = "vpc"
-  instance_type = var.instance_type[1]
+  key_name = var.key_pair
+  instance_type = var.instance_type[0]
   user_data = file("${path.module}/java.sh")
   subnet_id = element(aws_subnet.private.*.id, count.index)
   vpc_security_group_ids = [aws_security_group.private_sg.id] 
@@ -90,6 +90,7 @@ resource "aws_instance" "private_instance" {
     Name = "PrivateInstance${count.index + 1}"
   }
 }
+
 # resource "aws_instance" "ec2" {
 #   ami           = var.ami
 #   instance_type = "t2.micro"

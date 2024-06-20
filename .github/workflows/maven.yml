@@ -33,6 +33,16 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      job_type:
+        description: 'Type of TF Job'
+        required: true
+        default: 'apply'
+        type: string
+        options:
+          - apply
+          - destroy
 
 jobs:
   build:
@@ -54,7 +64,17 @@ jobs:
       uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
     - name: Terraform Apply
+      if: ${{github.events.input.job_type == 'apply'}}
       uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        # TF_ACTION_WORKING_DIR: 'terraform'
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Terraform Destroy
+      if: ${{github.events.input.job_type == 'destroy'}}
+      uses: hashicorp/terraform-github-actions/destroy@v0.4.0
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         # TF_ACTION_WORKING_DIR: 'terraform'
@@ -82,11 +102,25 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push
+    - name: Build and push to dockerhub
       uses: docker/build-push-action@v3
       with:
         context: .      #set build context (the directory from which the Docker build command is run, contains all necessary files, especially the WAR file.)
         push: true
         tags: femi28/maven-app:${{ github.sha }}
+    - uses: diogohudson/build_docker_2_ecr_eks@v1
+      with:
+        access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+        repo: 211125745138.dkr.ecr.us-east-2.amazonaws.com/java_app
+        region: us-east-2
+        tags: ${{ github.sha }}
+        create_repo: true
+        image_scanning_configuration: true
+        set_repo_policy: false
+        cluster_name: eks_deploy
+        # kubectl_command: |
+        #   deploy -f deployment/my_app.yaml 
      
 
