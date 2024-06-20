@@ -55,6 +55,8 @@ jobs:
       run: ls /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war
     - name: Copy WAR file
       run: cp /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war ~/
+    - name: Check WAR file
+      run: ls ~/
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
