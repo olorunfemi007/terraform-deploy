@@ -53,6 +53,8 @@ jobs:
       run: mvn -B install --file pom.xml
     - name: Check location of build
       run: ls /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war
+    - name: Move WAR file to build context
+      run: cp /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war .
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
