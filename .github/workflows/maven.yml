@@ -53,10 +53,6 @@ jobs:
       run: mvn -B install --file pom.xml
     - name: Check location of build
       run: ls /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war
-    - name: Copy WAR file
-      run: cp /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war ~/
-    - name: Check WAR file
-      run: ls ~/
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
@@ -69,6 +65,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
+        context: .      #set build context (the directory from which the Docker build command is run, contains all necessary files, especially the WAR file.)
         push: true
         tags: femi28/maven-app:${{ github.sha }}
      
