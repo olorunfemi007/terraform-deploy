@@ -51,6 +51,7 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Install with Maven
       run: mvn -B install --file pom.xml
+      run: ls /home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx

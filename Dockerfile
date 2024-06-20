@@ -1,5 +1,5 @@
 FROM tomcat:9.0.37-jdk8
-# ADD ./target/addressbook-1.0.war /usr/local/tomcat/webapps/
+ADD ./home/runner/.m2/repository/com/fusi/tutorial/addressbook/1.0/addressbook-1.0.war /usr/local/tomcat/webapps/
 EXPOSE 8080
 CMD "catalina.sh"  "run"
 
