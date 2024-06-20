@@ -1,5 +1,5 @@
 FROM tomcat:9.0.37-jdk8
-ADD ~/addressbook-1.0.war /var/lib/tomcat9/webapps/
+ADD ~/addressbook-1.0.war ~/
 EXPOSE 8080
 CMD "catalina.sh"  "run"
 
