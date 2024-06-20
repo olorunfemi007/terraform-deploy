@@ -35,7 +35,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  tf_fmt:
 
     runs-on: ubuntu-latest
 
