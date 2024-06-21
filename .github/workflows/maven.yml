@@ -124,14 +124,14 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     - name: Build & Push image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          registry: ${{ steps.login-ecr.outputs.registry }}
-          repository: ${{ steps.login-ecr.outputs.registry }}/java_app
-          push: true
-          add_git_labels: true
-          tag_with_ref: true
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        registry: ${{ steps.login-ecr.outputs.registry }}
+        repository: ${{ steps.login-ecr.outputs.registry }}/java_app
+        push: true
+        add_git_labels: true
+        tag_with_ref: true
 
     - name: Update kube config
       run: aws eks update-kubeconfig --region us-east-1 --name java_app_cluster
