@@ -123,21 +123,15 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-    - name: Native docker ECR login
-      id: docker-ecr-login
-      run: |
-        result=$(aws ecr get-login-password --region | docker login --username AWS --password-stdin 211125745138.dkr.ecr.us-east-1.amazonaws.com)
-        echo "Login Result: $result"
-
-
-    - name: Build, tag, and push docker image to Amazon ECR
-      env:
-        REGISTRY: 
-        REPOSITORY: java_app
-        IMAGE_TAG: latest
-      run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+    - name: Build & Push image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          registry: ${{ steps.login-ecr.outputs.registry }}
+          repository: ${{ steps.login-ecr.outputs.registry }}/java_app
+          push: true
+          add_git_labels: true
+          tag_with_ref: true
 
     - name: Update kube config
       run: aws eks update-kubeconfig --region us-east-1 --name java_app_cluster
