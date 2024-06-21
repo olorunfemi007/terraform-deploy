@@ -145,7 +145,6 @@ jobs:
     - name: Check for Kubernetes Secret
       id: check-secret
       run: |
-        SECRET_NAME=$ # specify your secret name
         NAMESPACE=default # specify the namespace
 
         if kubectl get secret $SECRET_NAME --namespace $NAMESPACE; then
