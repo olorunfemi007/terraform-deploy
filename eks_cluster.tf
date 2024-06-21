@@ -26,7 +26,7 @@ POLICY
 
 resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.demo-cluster.name
+  role       = aws_iam_role.cluster_iam_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSServicePolicy" {
@@ -64,10 +64,9 @@ resource "aws_security_group_rule" "cluster-ingress-workstation-https" {
 resource "aws_eks_cluster" "eks_deploy" {
   name     = var.cluster-name
   role_arn = aws_iam_role.cluster_iam_role.arn
-
   vpc_config {
     security_group_ids = [aws_security_group.java_eks_cluster.id]
-    subnet_ids         = element(aws_subnet.private.*.id, count.index)
+    subnet_ids         =  aws_subnet.private[*].id 
   }
 
   depends_on = [

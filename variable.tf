@@ -1,6 +1,6 @@
 variable "ami" {
   type    = string
-  default = "ami-0d77c9d87c7e619f9"
+  default = "ami-04b70fa74e45c3917"
 
 }
 
@@ -16,5 +16,10 @@ variable "cluster-name" {
 
 variable "key_pair" {
   type = string
-  default = "vpc"
+  default = "vpc_east1"
+}
+
+variable "region" {
+  type = string
+  default = "us-east-1"
 }

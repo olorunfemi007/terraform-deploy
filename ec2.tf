@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-2"
+  region = var.region
 }
 
 resource "aws_vpc" "main" {
@@ -10,14 +10,14 @@ resource "aws_subnet" "public" {
   vpc_id = aws_vpc.main.id
   cidr_block = "10.0.0.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "us-east-2a"
+  availability_zone = "us-east-1a"
 }
 
 resource "aws_subnet" "private" {
   count = 4
   vpc_id = aws_vpc.main.id
   cidr_block = "10.0.${count.index + 2}.0/24"
-  availability_zone = element(["us-east-2a", "us-east-2b", "us-east-2c"], count.index)
+  availability_zone = element(["us-east-1a", "us-east-1b", "us-east-1c"], count.index)
 }
 
 resource "aws_internet_gateway" "main" {
@@ -39,31 +39,31 @@ resource "aws_route" "public_internet_access" {
   gateway_id = aws_internet_gateway.main.id
 }
 
-# resource "aws_eip" "nat_eip" {
-#   vpc = true
-# }
+resource "aws_eip" "nat_eip" {
+  vpc = true
+}
 
-# resource "aws_nat_gateway" "nat_gateway" {
-#   allocation_id = aws_eip.nat_eip.id
-#   subnet_id     = aws_subnet.public.id
-# }
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public.id
+}
 
-# # Create a route table for the private subnet
-# resource "aws_route_table" "private_route_table" {
-#   vpc_id = aws_vpc.main.id
+# Create a route table for the private subnet
+resource "aws_route_table" "private_route_table" {
+  vpc_id = aws_vpc.main.id
 
-#   route {
-#     cidr_block = "0.0.0.0/0"
-#     nat_gateway_id = aws_nat_gateway.nat_gateway.id
-#   }
-# }
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_gateway.id
+  }
+}
 
-# # Associate the private route table with the private subnet
-# resource "aws_route_table_association" "private_subnet_association" {
-#   count = 4
-#   subnet_id      = element(aws_subnet.private.*.id, count.index)
-#   route_table_id = aws_route_table.private_route_table.id
-# }
+# Associate the private route table with the private subnet
+resource "aws_route_table_association" "private_subnet_association" {
+  count = 4
+  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = aws_route_table.private_route_table.id
+}
 
 
 resource "aws_instance" "public_instance" {

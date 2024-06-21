@@ -71,7 +71,7 @@ resource "aws_iam_role_policy_attachment" "workers_autoscaling" {
 }
 
 resource "aws_iam_policy" "worker_autoscaling" {
-  name_prefix = "eks-worker-autoscaling-${aws_eks_cluster.demo.id}"
+  name_prefix = "eks-worker-autoscaling-${aws_eks_cluster.eks_deploy.id}"
   description = "EKS worker node autoscaling policy for cluster ${aws_eks_cluster.eks_deploy.id}"
   policy      = data.aws_iam_policy_document.worker_autoscaling.json
 }
@@ -97,8 +97,8 @@ resource "aws_eks_node_group" "java_app_ng" {
   cluster_name    = aws_eks_cluster.eks_deploy.name
   node_group_name = "java_app_ng"
   node_role_arn   = aws_iam_role.node_iam_role.arn
-  subnet_ids      = element(aws_subnet.private.*.id, count.index)
-  instance_types = [var.instance_types[0]]
+  subnet_ids      = aws_subnet.private[*].id
+  instance_types = [var.instance_type[0]]
   remote_access{
       ec2_ssh_key = var.key_pair
   }
