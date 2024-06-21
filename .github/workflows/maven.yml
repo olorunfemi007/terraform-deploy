@@ -114,6 +114,7 @@ jobs:
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
         repo: 211125745138.dkr.ecr.us-east-1.amazonaws.com/java_app
+        path: ../
         region: us-east-1
         tags: ${{ github.sha }}
         create_repo: true
