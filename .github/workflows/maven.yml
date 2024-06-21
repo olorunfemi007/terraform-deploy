@@ -51,7 +51,7 @@ jobs:
     env:
       SECRET_NAME: 'ecrpullsecret'
       DOCKER_ECR: '211125745138.dkr.ecr.us-east-1.amazonaws.com'
-      DOCKER_USERNAME: 'AWS'
+      DOCKER_USERNAME: 'vpc_emma'
       DOCKER_EMAIL: 'emmidim01@gmail.com'
 
     steps:
