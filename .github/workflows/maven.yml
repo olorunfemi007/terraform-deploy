@@ -90,17 +90,18 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      # run: terraform apply --auto-approve -input=false -lock=false
         run: echo "Apply here"
+      # run: terraform apply --auto-approve -input=false -lock=false
+        
     - name: Terraform Destroy
       if: ${{ github.event.inputs.job_type }} == 'destroy'
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        # terraform destroy --auto-approve -input=false -lock=false
+      run: |     
         echo "Should not be seeing this"
         exit 0
+
 
     # - name: Terraform Init
     #   uses: hashicorp/terraform-github-actions/init@v0.4.0
