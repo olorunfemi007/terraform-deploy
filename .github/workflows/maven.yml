@@ -150,7 +150,6 @@ jobs:
         kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
         DOCKER_SECRET=$(aws ecr get-login-password  --region us-east-1)
         echo "Login Result: $DOCKER_SECRET"
-        kubectl delete secret ecrpullsecret
         kubectl create secret docker-registry $KUBERNETES_REGISTRY --docker-server=$DOCKER_ECR --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_SECRET --docker-email=$DOCKER_EMAIL
 
 
