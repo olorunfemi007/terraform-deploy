@@ -152,7 +152,7 @@ jobs:
           echo "::set-output name=secret_exists::true"
         else
           echo "Secret $SECRET_NAME does not exist"
-          DOCKER_SECRET=$(aws ecr get-login-password  --region us-east-1)
+          DOCKER_SECRET=$(aws ecr --region=us-east-1 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2)
           echo "Login Result: $DOCKER_SECRET"
           kubectl create secret docker-registry $SECRET_NAME --docker-server=$DOCKER_ECR --docker-username=$DOCKER_USERNAME --docker-password=$DOCKER_SECRET --docker-email=$DOCKER_EMAIL
         fi
