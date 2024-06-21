@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: my-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: java_app
@@ -17,6 +17,8 @@ spec:
       labels:
         app: java_app
     spec:
+      imagePullSecrets:
+      - name: ecrpullsecret
       containers:
       - name: java-app-container
         image: 211125745138.dkr.ecr.us-east-1.amazonaws.com/java_app:latest
