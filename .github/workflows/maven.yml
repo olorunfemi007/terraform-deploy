@@ -139,10 +139,10 @@ jobs:
     
     - name: Deploy to EKS
       run: |
-        kubectl -f deployment/deploy.yaml 
-        kubectl -f deployment/pod_service.yaml 
-        kubectl -f deployment/hpa.yaml 
-        kubectl -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+        kubectl apply -f deployment/deploy.yaml 
+        kubectl apply -f deployment/pod_service.yaml 
+        kubectl apply -f deployment/hpa.yaml 
+        kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
 
 
