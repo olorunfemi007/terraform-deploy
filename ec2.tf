@@ -21,24 +21,24 @@ resource "aws_subnet" "public" {
   availability_zone = element(["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d"], count.index)
 }
 
-# resource "aws_internet_gateway" "main" {
-#   vpc_id = aws_vpc.main.id
-# }
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+}
 
-# resource "aws_route_table" "public" {
-#   vpc_id = aws_vpc.main.id
-# }
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+}
 
-# resource "aws_route_table_association" "public" {
-#   subnet_id = aws_subnet.public.id
-#   route_table_id = aws_route_table.public.id
-# }
+resource "aws_route_table_association" "public" {
+  subnet_id = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
 
-# resource "aws_route" "public_internet_access" {
-#   route_table_id = aws_route_table.public.id
-#   destination_cidr_block = "0.0.0.0/0"
-#   gateway_id = aws_internet_gateway.main.id
-# }
+resource "aws_route" "public_internet_access" {
+  route_table_id = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.main.id
+}
 
 # resource "aws_eip" "nat_eip" {
 #   vpc = true
