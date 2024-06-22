@@ -4,6 +4,7 @@
 #  * EC2 Security Group to allow networking traffic with EKS cluster
 #  * EKS Cluster
 #
+
 resource "aws_iam_role" "cluster_iam_role" {
   name = "terraform-eks-cluster"
 
@@ -65,7 +66,7 @@ resource "aws_eks_cluster" "eks_deploy" {
   role_arn = aws_iam_role.cluster_iam_role.arn
   vpc_config {
     security_group_ids = [aws_security_group.java_eks_cluster.id]
-    subnet_ids         =  aws_subnet.public[*].id 
+    subnet_ids         =  aws_subnet.private[*].id 
   }
 
   depends_on = [
@@ -73,4 +74,5 @@ resource "aws_eks_cluster" "eks_deploy" {
     aws_iam_role_policy_attachment.cluster-AmazonEKSServicePolicy,
   ]
 }
+
 
