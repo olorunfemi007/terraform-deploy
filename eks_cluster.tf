@@ -4,7 +4,6 @@
 #  * EC2 Security Group to allow networking traffic with EKS cluster
 #  * EKS Cluster
 #
-
 resource "aws_iam_role" "cluster_iam_role" {
   name = "terraform-eks-cluster"
 
