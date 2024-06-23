@@ -15,7 +15,7 @@ output "repository_url" {
   value = aws_ecr_repository.java_app_repo.repository_url
 }
 
-resource "aws_ecr_repository" "calculator_app_repo" {
+resource "aws_ecr_repository" "calc_app_repo" {
   name = "calculator"
   image_scanning_configuration {
     scan_on_push = true
