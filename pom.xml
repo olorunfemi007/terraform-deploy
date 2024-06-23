@@ -18,7 +18,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>olorunfemi007</sonar.organization>
         <sonar.projectKey>olorunfemi007_terraform-deploy</sonar.projectKey>
-        <sonar.login>${env.SONAR_TOKEN}</sonar.login>
+        <sonar.login>fdfe77273794e4415daf8d540d30a212a8e5836d</sonar.login>
     </properties>
     <repositories>
         <repository>
