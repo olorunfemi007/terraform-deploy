@@ -28,6 +28,6 @@ resource "aws_ecr_repository" "calc_app_repo" {
   }
 }
 
-output "repository_url" {
+output "repository_calc_url" {
   value = aws_ecr_repository.java_app_repo.repository_url
 }
